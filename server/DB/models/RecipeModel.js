@@ -36,6 +36,6 @@ const recipeSchema = new mongoose.Schema(
 );
 
 const RecipeModel =
-  mongoose.models.User || mongoose.model("User", recipeSchema);
+  mongoose.models.RecipeModel || mongoose.model("Recipe", recipeSchema);
 
 export default RecipeModel;

@@ -1,21 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
 
 dotenv.config();
 mongoose
-  .connect(
-    `mongodb+srv://liliia:${process.env.MONGO_DB_PASSWORD}@node-db.pfksm4p.mongodb.net/?retryWrites=true&w=majority`
-  )
+  .connect(process.env.MONGO_DB_URL)
   .then(() => console.log("connected to mongoDB"))
   .catch((err) => console.log(err));
 
 const app = express();
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 
 app.listen(process.env.PORT, () =>

@@ -15,11 +15,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isActivated: {
+      type: Boolean,
+      default: false,
+    },
+    activationLink: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
-const UserModel =
-  mongoose.models.UserModel || mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-export default UserModel;
+export default User;

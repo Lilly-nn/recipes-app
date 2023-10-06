@@ -1,11 +1,14 @@
 import UserModel from "../DB/models/UserModel.js";
 import { registrationSchema } from "../validation/authValidation.js";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
+import { sendActivationLink } from "../services/mail.service.js";
 
 export const register = async (req, res) => {
   try {
     const requestData = req.body;
-    //validate data from the client
+    //validate data from client
     const result = registrationSchema.safeParse({ ...requestData });
     if (result.error) {
       return res.status(400).json(result.error);
@@ -20,14 +23,20 @@ export const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(requestData.password, 8);
+    const activationLink = uuidv4();
     delete requestData.confirmPassword;
     const userData = {
       ...requestData,
+      activationLink,
       password: hashedPassword,
     };
 
     const user = new UserModel(userData);
     await user.save();
+    await sendActivationLink(
+      requestData.email,
+      `${process.env.SERVER_URL}/api/auth/activate/${activationLink}`
+    );
 
     return res.status(200).json({
       message: "User was Succesfully registered",
@@ -52,5 +61,28 @@ export const signIn = async (req, res) => {
   if (!validPassword) {
     return res.status(401).json({ message: "Couldn't authorize" });
   }
-  return res.status(200).json(user);
+  const token = jwt.sign({ id: user._id, email }, process.env.JWT_KEY, {
+    expiresIn: "24h",
+  });
+  res.cookie("access_token", token, {
+    maxAge: 14 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  });
+  return res.status(200).json({ user, token });
+};
+
+export const activate = async (req, res) => {
+  const activationLink = req.params.link;
+  const user = await UserModel.findOne({ activationLink });
+  if (!user) {
+    return res.status(400).json({ message: "Invalid activation link" });
+  }
+  user.isActivated = true;
+  await user.save();
+  return res.redirect(process.env.CLIENT_URL);
+};
+
+export const signOut = async (req, res) => {
+  const { access_token } = req.cookies;
+  res.clearCookie("access_token");
 };

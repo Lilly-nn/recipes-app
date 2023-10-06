@@ -37,4 +37,20 @@ export const register = async (req, res) => {
   }
 };
 
-export const signIn = async (req, res) => {};
+export const signIn = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Email or password were not provided" });
+  }
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ message: "Such account doesn't exist" });
+  }
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) {
+    return res.status(401).json({ message: "Couldn't authorize" });
+  }
+  return res.status(200).json(user);
+};

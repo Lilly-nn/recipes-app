@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import SignInPage from "./pages/SignInPage";
-import SignUpPage from "./pages/SignUpPage";
+import SignUpPage from "./pages/SignInPage";
+import SignInPage from "./pages/SignUpPage";
 import AccountPage from "./pages/AccountPage";
 import RecipePage from "./pages/RecipePage";
 import CreateRecipePage from "./pages/CreateRecipePage";
-import Header from "./components/Header";
+import AsideBar from "./components/AsideBar";
 
 function App() {
   return (
     <Router>
-      <Header />
+      <AsideBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/sign-in" element={<SignInPage />} />

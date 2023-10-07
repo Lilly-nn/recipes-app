@@ -32,7 +32,6 @@ export const register = async (req, res) => {
     };
 
     const user = new UserModel(userData);
-    console.log(user);
     await user.save();
     await sendActivationLink(
       requestData.email,

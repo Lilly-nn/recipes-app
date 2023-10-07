@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
+import recipeRouter from "./routes/recipeRoute.js";
 
 dotenv.config();
 mongoose
@@ -14,7 +15,7 @@ mongoose
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -24,3 +25,4 @@ app.listen(process.env.PORT, () =>
 
 app.use("/", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/recipes", recipeRouter);

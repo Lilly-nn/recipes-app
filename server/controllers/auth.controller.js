@@ -32,6 +32,7 @@ export const register = async (req, res) => {
     };
 
     const user = new UserModel(userData);
+    console.log(user);
     await user.save();
     await sendActivationLink(
       requestData.email,
@@ -64,10 +65,12 @@ export const signIn = async (req, res) => {
   const token = jwt.sign({ id: user._id, email }, process.env.JWT_KEY, {
     expiresIn: "24h",
   });
-  res.cookie("access_token", token, {
-    maxAge: 14 * 24 * 60 * 60 * 1000,
+  const hashedId = await bcrypt.hash(user._id.toString(), 5);
+  res.cookie("user_id", hashedId, {
+    maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,
   });
+
   return res.status(200).json({ user, token });
 };
 
@@ -83,6 +86,5 @@ export const activate = async (req, res) => {
 };
 
 export const signOut = async (req, res) => {
-  const { access_token } = req.cookies;
-  res.clearCookie("access_token");
+  res.clearCookie("user_id");
 };

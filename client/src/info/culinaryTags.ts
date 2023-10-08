@@ -1,0 +1,1 @@
+export const culinaryTags = ['Appetizers', "Beverages", "Bread", "Breakfast", "Lunch", "Main course", "Desserts", "Salads"]

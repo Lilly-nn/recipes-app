@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { AiTwotoneHome } from "react-icons/ai";
 import { MdManageAccounts, MdOutlineFavorite } from "react-icons/md";
 import { PiBowlFoodBold } from "react-icons/pi";
+import { BiMessageSquareAdd } from "react-icons/bi";
 
 export default function AsideBar() {
   return (
@@ -26,6 +27,13 @@ export default function AsideBar() {
           <PiBowlFoodBold />
           My recipes
         </Link>
+        <Link to="/create-recipe" className="link">
+          <BiMessageSquareAdd />
+          Create recipe
+        </Link>
+        <button type="button" className="link text-start">
+          Logout
+        </button>
       </div>
     </aside>
   );

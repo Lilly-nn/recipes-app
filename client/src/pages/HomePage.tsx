@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useFetchRecipes } from "../hooks/useFetchRecipes";
 
 export default function HomePage() {
   const signedIn = false;
+  const { recipes, loading, error } = useFetchRecipes(`/recipes/get-all`);
+  console.log(recipes);
   return (
     <section className="section">
       <h4 className="section__title">Home page</h4>

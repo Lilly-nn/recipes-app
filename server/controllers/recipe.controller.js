@@ -10,3 +10,10 @@ export const createRecipe = async (req, res) => {
     return res.status(400).json(err);
   }
 };
+
+export const getAllRecipes = async (req, res) => {
+  const recipes = await RecipeModel.find({});
+  return res.status(200).json({ recipes });
+};
+
+export const deleteRecipe = async (res, req) => {};

@@ -6,6 +6,7 @@ import AccountPage from "./pages/AccountPage";
 import RecipePage from "./pages/RecipePage";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import AsideBar from "./components/AsideBar";
+import MyRecipesPage from "./pages/MyRecipesPage";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/account" element={<AccountPage />} />
+        <Route path="/account/:id" element={<AccountPage />} />
         <Route path="/recipe/:id" element={<RecipePage />} />
-        <Route path="/create-recipe" element={<CreateRecipePage />} />
+        <Route path="/my-recipes/:id" element={<MyRecipesPage />} />
+        <Route path="/create-recipe/:id" element={<CreateRecipePage />} />
       </Routes>
     </Router>
   );

@@ -1,12 +1,16 @@
 import { useState } from "react";
 import axios from "../config/axios.config";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { Select, MenuItem, InputLabel, Box, Chip } from "@mui/material";
+import { Select, MenuItem, Box, Chip } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { culinaryTags } from "../info/culinaryTags";
+import toast, { Toaster } from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 export default function CreateRecipePage() {
+  const { id } = useParams();
   const [ingredient, setIngredient] = useState("");
+  const [loading, setLoading] = useState(false);
   const [recipeData, setRecipeData] = useState({
     title: "",
     description: "",
@@ -52,19 +56,52 @@ export default function CreateRecipePage() {
       tags: typeof value === "string" ? value.split(",") : value,
     });
   }
+
+  async function createRecipe(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const { title, description, timeToMake, tags, ingredients } = recipeData;
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !timeToMake.trim() ||
+      !tags.length ||
+      !ingredients.length
+    ) {
+      alert("Fill out all fields");
+      return;
+    }
+    if (description.length < 90) {
+      alert("Description should be larger, please specify more details");
+      return;
+    }
+    e.currentTarget.reset();
+    setRecipeData({
+      ...recipeData,
+      ingredients: [],
+    });
+    try {
+      setLoading(false);
+      await axios.post(`/recipes/create-recipe/${id}`, {
+        ...recipeData,
+        authorId: localStorage.getItem("user_id"),
+      });
+      toast.success("Recipe created");
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to create a recipe");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <section className="section">
       <h6 className="section__title">Create a recipe</h6>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log(recipeData);
-        }}
-        className="flex flex-col gap-4 mt-12"
-      >
+      <form onSubmit={createRecipe} className="flex flex-col gap-4 mt-12">
         <label className="input-label">
           Recipe Title
           <input
+            required
             className="input"
             autoComplete="off"
             type="text"
@@ -75,6 +112,7 @@ export default function CreateRecipePage() {
         <label className="input-label">
           Description (steps to make)
           <textarea
+            required
             className="input max-h-[70vh] min-h-[200px]"
             name="description"
             onChange={onChange}
@@ -83,6 +121,7 @@ export default function CreateRecipePage() {
         <label className="input-label">
           Time to make(1 hour, 30 minutes, 15m, 1h 20m )
           <input
+            required
             className="input"
             autoComplete="off"
             type="text"
@@ -125,6 +164,7 @@ export default function CreateRecipePage() {
                   className="flex gap-2 items-center"
                 >
                   <input
+                    required
                     className="input w-[130px] text-center rounded-md !text-gray-500"
                     readOnly
                     type="text"
@@ -165,12 +205,13 @@ export default function CreateRecipePage() {
         </div>
         <button
           type="submit"
-          disabled={false}
+          disabled={loading}
           className="py-2 px-6 rounded-md text-orange-600 w-[200px] border border-orange-400 hover:bg-orange-400 hover:text-white disabled:bg-orange-300 disabled:text-white disabled:border-none transition-colors focus:outline-orange-500"
         >
-          create recipe
+          {loading ? "creating..." : "create recipe"}
         </button>
       </form>
+      <Toaster position="bottom-center" />
     </section>
   );
 }

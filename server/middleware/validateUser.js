@@ -2,10 +2,10 @@ import UserModel from "../DB/models/UserModel.js";
 import bcrypt from "bcrypt";
 
 export const validateUser = async (req, res, next) => {
-  const { authorId: id } = req.body;
+  const { id } = req.params;
   const user = await UserModel.findById(id);
   if (!user) {
-    return res.status(404).json({ message: "Such user doesn't exist" });
+    return res.status(401).json({ message: "Unauthorized user" });
   }
   const currentUserId = user._id.valueOf();
   const { user_id } = req.cookies;

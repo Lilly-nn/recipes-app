@@ -64,7 +64,8 @@ export const signIn = async (req, res) => {
   const token = jwt.sign({ id: user._id, email }, process.env.JWT_KEY, {
     expiresIn: "24h",
   });
-  const hashedId = await bcrypt.hash(user._id.toString(), 5);
+  const hashedId = await bcrypt.hash(user._id.valueOf(), 5);
+  console.log(hashedId);
   res.cookie("user_id", hashedId, {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,
@@ -85,5 +86,6 @@ export const activate = async (req, res) => {
 };
 
 export const signOut = async (req, res) => {
+  localStorage.removeItem("user_id");
   res.clearCookie("user_id");
 };

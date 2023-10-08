@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post("/sign-up", register);
 router.post("/sign-in", signIn);
-router.post("/sign-out", signOut);
+router.get("/sign-out", signOut);
 router.get("/activate/:link", activate);
 
 export default router;

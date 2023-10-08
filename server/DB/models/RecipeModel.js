@@ -18,6 +18,12 @@ const recipeSchema = new mongoose.Schema(
     ingredients: {
       type: Array,
       required: true,
+      default: undefined,
+    },
+    tags: {
+      type: Array,
+      required: true,
+      default: undefined,
     },
     timeToMake: {
       type: String,
@@ -36,6 +42,6 @@ const recipeSchema = new mongoose.Schema(
 );
 
 const RecipeModel =
-  mongoose.models.RecipeModel || mongoose.model("Recipe", recipeSchema);
+  mongoose.models.Recipe || mongoose.model("Recipe", recipeSchema);
 
 export default RecipeModel;

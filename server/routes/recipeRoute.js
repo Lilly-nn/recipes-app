@@ -4,6 +4,6 @@ import { validateUser } from "../middleware/validateUser.js";
 
 const router = express.Router();
 
-router.post("/create-recipe", validateUser, createRecipe);
+router.post("/create-recipe/:id", validateUser, createRecipe);
 
 export default router;

@@ -7,4 +7,5 @@ export type RecipeType = {
     tags: string[];
     ingredients: string[];
     timeToMake: string;
+    description: string;
 }

@@ -1,28 +1,27 @@
-import { Link } from "react-router-dom";
 import { useFetchRecipes } from "../hooks/useFetchRecipes";
+import RecipeCard from "../components/RecipeCard";
 
 export default function HomePage() {
-  const signedIn = false;
   const { recipes, loading, error } = useFetchRecipes(`/recipes/get-all`);
   console.log(recipes);
   return (
     <section className="section">
       <h4 className="section__title">Home page</h4>
-      <div className="flex justify-between mt-4 items-center gap-x-4">
+      <div className="flex flex-col justify-between mt-4  gap-x-4">
         <input
-          className="flex-1 p-4 focus:outline-slate-200 text-gray-500"
+          className=" p-4 focus:outline-slate-200 text-gray-500"
           type="text"
           placeholder="Search recipes by name.. "
         />
-        {signedIn ? (
-          <span>g</span>
-        ) : (
-          <div>
-            <Link to="/sign-in">Sign in</Link>
-            {"/"}
-            <Link to="/sign-up">Sign up</Link>
-          </div>
-        )}
+        <div className="mt-6 flex gap-3 flex-wrap">
+          {!loading &&
+            recipes.length > 0 &&
+            recipes.map((recipe) => (
+              <RecipeCard key={recipe._id} {...recipe} />
+            ))}
+        </div>
+        {loading && <span>Fetching your recipes...</span>}
+        {!loading && error && <span>{error}</span>}
       </div>
     </section>
   );

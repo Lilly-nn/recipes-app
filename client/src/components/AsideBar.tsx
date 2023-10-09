@@ -6,6 +6,7 @@ import { BiMessageSquareAdd } from "react-icons/bi";
 import axios from "../config/axios.config";
 
 export default function AsideBar() {
+  const signedIn = true;
   async function signOut() {
     await axios.get("/api/auth/sign-out");
   }
@@ -19,37 +20,58 @@ export default function AsideBar() {
           <AiTwotoneHome />
           Home
         </Link>
-        <Link
-          to={`/account/${localStorage.getItem("user_id")}`}
-          className="link"
-        >
-          <MdManageAccounts />
-          Account
-        </Link>
-        <Link
-          to={`/favourites/${localStorage.getItem("user_id")}`}
-          className="link"
-        >
-          <MdOutlineFavorite />
-          Favourites
-        </Link>
-        <Link
-          to={`/my-recipes/${localStorage.getItem("user_id")}`}
-          className="link"
-        >
-          <PiBowlFoodBold />
-          My recipes
-        </Link>
-        <Link
-          to={`/create-recipe/${localStorage.getItem("user_id")}`}
-          className="link"
-        >
-          <BiMessageSquareAdd />
-          Create recipe
-        </Link>
-        <button onClick={signOut} type="button" className="link text-start">
-          Logout
-        </button>
+        {!signedIn ? (
+          <div className="flex">
+            <Link
+              to="/sign-in"
+              className="text-xl transition-all underline-offset-2  hover:text-blue-950 hover:underline"
+            >
+              Sign in
+            </Link>
+            /
+            <Link
+              to="/sign-up"
+              className="text-xl underline-offset-2 transition-all hover:text-blue-950 hover:underline"
+            >
+              Sign up
+            </Link>
+          </div>
+        ) : (
+          <>
+            <Link
+              to={`/account/${localStorage.getItem("user_id")}`}
+              className="link"
+            >
+              <MdManageAccounts />
+              Account
+            </Link>
+
+            <Link
+              to={`/favourites/${localStorage.getItem("user_id")}`}
+              className="link"
+            >
+              <MdOutlineFavorite />
+              Favourites
+            </Link>
+            <Link
+              to={`/my-recipes/${localStorage.getItem("user_id")}`}
+              className="link"
+            >
+              <PiBowlFoodBold />
+              My recipes
+            </Link>
+            <Link
+              to={`/create-recipe/${localStorage.getItem("user_id")}`}
+              className="link"
+            >
+              <BiMessageSquareAdd />
+              Create recipe
+            </Link>
+            <button onClick={signOut} type="button" className="link text-start">
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </aside>
   );

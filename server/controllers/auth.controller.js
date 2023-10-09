@@ -86,6 +86,5 @@ export const activate = async (req, res) => {
 };
 
 export const signOut = async (req, res) => {
-  localStorage.removeItem("user_id");
   res.clearCookie("user_id");
 };

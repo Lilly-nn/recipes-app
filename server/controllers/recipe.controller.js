@@ -28,4 +28,12 @@ export const getRecipeById = async (req, res) => {
   return res.status(200).json({ recipe });
 };
 
-export const deleteRecipe = async (res, req) => {};
+export const deleteRecipe = async (req, res) => {
+  const { id } = req.body;
+  const deleted = await RecipeModel.findByIdAndDelete(id);
+  if (deleted) {
+    return res.status(200).json({ message: "Deleted succesfully" });
+  } else {
+    return res.status(500).json({ message: "Something went wrong..." });
+  }
+};

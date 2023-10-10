@@ -40,10 +40,16 @@ code {
     @apply w-fit bg-slate-600 text-white py-3 px-6 rounded-md hover:bg-slate-500 disabled:bg-slate-300;
   }
   .card {
-    @apply rounded-md relative p-5 shadow-lg max-w-xs hover:shadow-xl transition-shadow flex flex-col gap-y-2 min-w-[300px];
+    @apply rounded-md overflow-hidden  shadow-lg hover:shadow-xl transition-shadow flex flex-col gap-y-2 min-w-[300px] max-w-[300px];
   }
   .card__title {
-    @apply text-2xl font-medium;
+    @apply text-2xl font-medium line-clamp-2;
+  }
+  .card__img {
+    @apply object-cover rounded-tr-md rounded-tl-md  h-[200px] hover:scale-110 transition-transform;
+  }
+  .card__details {
+    @apply relative p-5;
   }
   .card__time {
     @apply text-gray-400;

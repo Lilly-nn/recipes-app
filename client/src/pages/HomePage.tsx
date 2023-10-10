@@ -3,7 +3,7 @@ import RecipeCard from "../components/RecipeCard";
 
 export default function HomePage() {
   const { recipes, loading, error } = useFetchRecipes(`/recipes/get-all`);
-  console.log(recipes);
+
   return (
     <section className="section">
       <h4 className="section__title">Home page</h4>
@@ -20,7 +20,7 @@ export default function HomePage() {
               <RecipeCard key={recipe._id} {...recipe} />
             ))}
         </div>
-        {loading && <span>Fetching your recipes...</span>}
+        {loading && <span>Fetching recipes...</span>}
         {!loading && error && <span>{error}</span>}
       </div>
     </section>

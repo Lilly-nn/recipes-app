@@ -8,6 +8,7 @@ import axios from "../config/axios.config";
 export default function AsideBar() {
   const signedIn = true;
   async function signOut() {
+    localStorage.removeItem("user_id");
     await axios.get("/api/auth/sign-out");
   }
   return (

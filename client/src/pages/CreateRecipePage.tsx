@@ -1,15 +1,17 @@
 import { useState } from "react";
 import axios from "../config/axios.config";
-import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Select, MenuItem, Box, Chip } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { culinaryTags } from "../info/culinaryTags";
 import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { convertToBase64 } from "../utils/convertion";
+import IngredientsInputs from "../components/IngredientsInputs";
+import { checkIfImage } from "../utils/checkFiletype";
 
 export default function CreateRecipePage() {
   const { id } = useParams();
-  const [ingredient, setIngredient] = useState("");
+  const [imgFile, setImgFile] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [recipeData, setRecipeData] = useState({
     title: "",
@@ -17,24 +19,8 @@ export default function CreateRecipePage() {
     timeToMake: "",
     ingredients: [] as string[],
     tags: [] as string[],
+    image: "" as string | null | ArrayBuffer,
   });
-
-  function addIngredient() {
-    if (ingredient.trim() === "") return;
-    setRecipeData({
-      ...recipeData,
-      ingredients: [...recipeData.ingredients, ingredient],
-    });
-    setIngredient("");
-  }
-
-  function deleteIngredient(ingredient: string) {
-    const filtered = recipeData.ingredients.filter((el) => el !== ingredient);
-    setRecipeData({
-      ...recipeData,
-      ingredients: filtered,
-    });
-  }
 
   function onChange(
     e:
@@ -57,6 +43,19 @@ export default function CreateRecipePage() {
     });
   }
 
+  async function fileInput(e: React.ChangeEvent<HTMLInputElement>) {
+    const file: any = e.target.files && e.target.files[0];
+    const validInput = checkIfImage(file);
+    if (!validInput) return;
+    setImgFile(file);
+
+    const converted = await convertToBase64(file);
+    setRecipeData({
+      ...recipeData,
+      image: converted,
+    });
+  }
+
   async function createRecipe(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const { title, description, timeToMake, tags, ingredients } = recipeData;
@@ -74,7 +73,7 @@ export default function CreateRecipePage() {
       alert("Description should be larger, please specify more details");
       return;
     }
-    e.currentTarget.reset();
+
     setRecipeData({
       ...recipeData,
       ingredients: [],
@@ -86,8 +85,8 @@ export default function CreateRecipePage() {
         authorId: localStorage.getItem("user_id"),
       });
       toast.success("Recipe created");
+      e.currentTarget.reset();
     } catch (err) {
-      console.log(err);
       toast.error("Failed to create a recipe");
     } finally {
       setLoading(false);
@@ -133,52 +132,16 @@ export default function CreateRecipePage() {
           <label className="input-label">
             Ingredients (50g butter, 3 eggs)
           </label>
-          <div className="flex gap-6 items-center">
-            <input
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  addIngredient();
-                }
-              }}
-              className="input w-[200px]"
-              autoComplete="off"
-              type="text"
-              placeholder="ingredient"
-              value={ingredient}
-              onChange={(e) => setIngredient(e.target.value)}
-            />
-            <button
-              className="bg-orange-300 mt-2 py-2 px-8 hover:bg-orange-400 text-white rounded-md"
-              type="button"
-              onClick={addIngredient}
-            >
-              Add
-            </button>
-          </div>
-          <div className="flex gap-2 mt-4 flex-wrap">
-            {recipeData.ingredients.length > 0 &&
-              recipeData.ingredients.map((ingredient) => (
-                <div
-                  key={ingredient + Math.random()}
-                  className="flex gap-2 items-center"
-                >
-                  <input
-                    required
-                    className="input w-[130px] text-center rounded-md !text-gray-500"
-                    readOnly
-                    type="text"
-                    value={ingredient}
-                  />
-                  <button onClick={() => deleteIngredient(ingredient)}>
-                    <AiOutlineCloseCircle className="text-xl text-gray-300 mt-2 hover:text-gray-500" />
-                  </button>
-                </div>
-              ))}
+          <IngredientsInputs
+            recipeData={recipeData}
+            setRecipeData={setRecipeData}
+          />
+          <div>
+            <label className="input-label">Choose image preview</label>
+            <input type="file" required accept="image/*" onChange={fileInput} />
           </div>
           <div>
             <label className="input-label">Tags</label>
-
             <Select
               multiple
               placeholder="Choose relevant tags"

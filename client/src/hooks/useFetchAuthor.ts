@@ -11,7 +11,7 @@ export default function useFetchAuthor(recipeData: RecipeType | null) {
     const [authorData, setAuthorData] = useState<AuthorData | null>(null)
     async function fetchAuthor() {
         try {
-            const res = await axios.post("get-author", {
+            const res = await axios.post("/get-author", {
                 authorId: recipeData?.authorId,
             });
             const { author } = res.data;

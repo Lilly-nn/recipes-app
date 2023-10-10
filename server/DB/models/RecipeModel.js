@@ -20,6 +20,10 @@ const recipeSchema = new mongoose.Schema(
       required: true,
       default: undefined,
     },
+    image: {
+      type: String,
+      required: true,
+    },
     tags: {
       type: Array,
       required: true,
@@ -42,6 +46,6 @@ const recipeSchema = new mongoose.Schema(
 );
 
 const RecipeModel =
-  mongoose.models.Recipe || mongoose.model("Recipe", recipeSchema);
+  mongoose.models.recipes || mongoose.model("Recipe", recipeSchema);
 
 export default RecipeModel;

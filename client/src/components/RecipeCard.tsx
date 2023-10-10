@@ -1,6 +1,9 @@
 import { RecipeType } from "../types/RecipeType";
 import { Link, useLocation } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
+import axios from "../config/axios.config";
+import toast, { Toaster } from "react-hot-toast";
+import { getErrorMessage } from "../utils/getApiError";
 
 export default function RecipeCard(props: RecipeType) {
   const { pathname } = useLocation();
@@ -11,13 +14,28 @@ export default function RecipeCard(props: RecipeType) {
     const deleteAccepted = window.confirm(
       "Do you really want to delete this recipe?"
     );
-    if (deleteAccepted) {
+    if (!deleteAccepted) return;
+    try {
+      const res = await axios.post("/recipes/delete-recipe", {
+        id: props._id,
+      });
+      const { message } = res.data;
+      toast.success(message);
+    } catch (err) {
+      toast.error(getErrorMessage(err));
     }
   }
 
   return (
     <Link to={`/recipes/${props._id}`} className="card">
-      <img src={props.image} alt={props.title} className="card__img" />
+      <img
+        src={
+          props.image ||
+          "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"
+        }
+        alt={props.title}
+        className="card__img"
+      />
       <div className="card__details">
         <h6 className="card__title">{props.title}</h6>
         <span className="card__time">{props.timeToMake}</span>
@@ -30,6 +48,7 @@ export default function RecipeCard(props: RecipeType) {
           <AiFillDelete className="delete-icon" onClick={deleteRecipe} />
         )}
       </div>
+      <Toaster position="bottom-center" />
     </Link>
   );
 }

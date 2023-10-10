@@ -5,7 +5,6 @@ import RecipeCard from "../components/RecipeCard";
 export default function MyRecipesPage() {
   const { id } = useParams();
   const { recipes, loading, error } = useFetchRecipes(`/get-created/${id}`);
-
   return (
     <section className="section">
       <h6 className="section__title ">My Recipes</h6>

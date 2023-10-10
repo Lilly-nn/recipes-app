@@ -11,7 +11,7 @@ import { checkIfImage } from "../utils/checkFiletype";
 
 export default function CreateRecipePage() {
   const { id } = useParams();
-  const [imgFile, setImgFile] = useState<any>();
+  const [, setImgFile] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [recipeData, setRecipeData] = useState({
     title: "",
@@ -73,11 +73,11 @@ export default function CreateRecipePage() {
       alert("Description should be larger, please specify more details");
       return;
     }
-
     setRecipeData({
       ...recipeData,
       ingredients: [],
     });
+    e.currentTarget.reset();
     try {
       setLoading(false);
       await axios.post(`/recipes/create-recipe/${id}`, {
@@ -85,8 +85,8 @@ export default function CreateRecipePage() {
         authorId: localStorage.getItem("user_id"),
       });
       toast.success("Recipe created");
-      e.currentTarget.reset();
     } catch (err) {
+      console.log(err);
       toast.error("Failed to create a recipe");
     } finally {
       setLoading(false);

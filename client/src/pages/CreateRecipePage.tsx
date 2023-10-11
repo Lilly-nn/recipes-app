@@ -1,17 +1,15 @@
-import { useState } from "react";
-import axios from "../config/axios.config";
-import { Select, MenuItem, Box, Chip } from "@mui/material";
+import { Box, Chip, MenuItem, Select } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { culinaryTags } from "../info/culinaryTags";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { convertToBase64 } from "../utils/convertion";
+import FileInput from "../components/FileInput";
 import IngredientsInputs from "../components/IngredientsInputs";
-import { checkIfImage } from "../utils/checkFiletype";
+import axios from "../config/axios.config";
+import { culinaryTags } from "../info/culinaryTags";
 
 export default function CreateRecipePage() {
   const { id } = useParams();
-  const [, setImgFile] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [recipeData, setRecipeData] = useState({
     title: "",
@@ -43,22 +41,10 @@ export default function CreateRecipePage() {
     });
   }
 
-  async function fileInput(e: React.ChangeEvent<HTMLInputElement>) {
-    const file: any = e.target.files && e.target.files[0];
-    const validInput = checkIfImage(file);
-    if (!validInput) return;
-    setImgFile(file);
-
-    const converted = await convertToBase64(file);
-    setRecipeData({
-      ...recipeData,
-      image: converted,
-    });
-  }
-
   async function createRecipe(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const { title, description, timeToMake, tags, ingredients } = recipeData;
+    if (!ingredients.length) alert("Add ingredients!");
     if (
       !title.trim() ||
       !description.trim() ||
@@ -136,10 +122,7 @@ export default function CreateRecipePage() {
             recipeData={recipeData}
             setRecipeData={setRecipeData}
           />
-          <div>
-            <label className="input-label">Choose image preview</label>
-            <input type="file" required accept="image/*" onChange={fileInput} />
-          </div>
+          <FileInput recipeData={recipeData} setRecipeData={setRecipeData} />
           <div>
             <label className="input-label">Tags</label>
             <Select

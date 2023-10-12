@@ -66,4 +66,7 @@ code {
   .delete-icon {
     @apply absolute bottom-6 right-5 text-lg text-gray-500 hover:text-black;
   }
+  .profile-input {
+    @apply border p-2 focus:outline-indigo-200 text-indigo-300 border-gray-200 rounded-md;
+  }
 }

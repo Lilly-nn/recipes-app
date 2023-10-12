@@ -6,10 +6,10 @@ import { BiMessageSquareAdd } from "react-icons/bi";
 import axios from "../config/axios.config";
 
 export default function AsideBar() {
-  const signedIn = true;
+  const signedIn = false;
   async function signOut() {
     localStorage.removeItem("user_id");
-    await axios.get("/api/auth/sign-out");
+    await axios.post("/api/auth/sign-out");
   }
   return (
     <aside className="py-6 px-8 w-[300px] fixed">

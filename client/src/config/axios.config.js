@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const fetch = axios.create({
+const axiosInstance = axios.create({
   withCredentials: true,
   credentials: "include",
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-export default fetch;
+export default axiosInstance;

@@ -43,7 +43,6 @@ export default function FileInput({ recipeData, setRecipeData }: Props) {
       <input
         ref={ref}
         type="file"
-        required
         accept="image/*"
         className="hidden"
         onChange={fileInput}

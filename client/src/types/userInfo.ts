@@ -6,7 +6,10 @@ export type UserInfo = {
 }
 
 export type UserData = {
+    _id: string;
     name: string;
     email: string;
-    isActivated: boolean;
+    isActivated?: boolean;
+    city: string;
+    createdAt: string;
 }

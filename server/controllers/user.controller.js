@@ -10,6 +10,19 @@ export const getProfile = async (req, res) => {
   return res.status(200).json({ user });
 };
 
+export const updateProfile = async (req, res) => {
+  const { id, name, city } = req.body;
+  const user = await UserModel.findById(id);
+  if (!user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const updatedUser = await UserModel.findByIdAndUpdate(id, { name, city });
+  if (!updatedUser) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+  return res.status(200).json({ message: "Updated successfully" });
+};
+
 export const getUserRecipes = async (req, res) => {
   const { id: userId } = req.params;
   const recipes = await RecipeModel.find({ authorId: { $eq: userId } });

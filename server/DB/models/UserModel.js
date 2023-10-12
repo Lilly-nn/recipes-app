@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
     activationLink: {
       type: String,
     },
+    city: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

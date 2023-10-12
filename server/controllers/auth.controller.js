@@ -87,4 +87,5 @@ export const activate = async (req, res) => {
 
 export const signOut = async (req, res) => {
   res.clearCookie("user_id");
+  res.end();
 };

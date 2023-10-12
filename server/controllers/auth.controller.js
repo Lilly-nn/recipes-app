@@ -65,7 +65,7 @@ export const signIn = async (req, res) => {
     expiresIn: "24h",
   });
   const hashedId = await bcrypt.hash(user._id.valueOf(), 5);
-  console.log(hashedId);
+
   res.cookie("user_id", hashedId, {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,

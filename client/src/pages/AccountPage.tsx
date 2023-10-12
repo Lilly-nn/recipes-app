@@ -6,6 +6,7 @@ import axios from "../config/axios.config";
 import { UserData } from "../types/userInfo";
 import toast, { Toaster } from "react-hot-toast";
 import { getErrorMessage } from "../utils/getApiError";
+import useCheckAuthorized from "../hooks/useCheckAuthorized";
 
 export default function AccountPage() {
   const { id } = useParams();
@@ -49,6 +50,8 @@ export default function AccountPage() {
       setIsUpdating(false);
     }
   }
+
+  useCheckAuthorized();
 
   return (
     <section className="section">
@@ -104,7 +107,16 @@ export default function AccountPage() {
               {!user.isActivated && (
                 <>
                   <p className="text-sm text-red-400 italic mt-1">
-                    Please activate your account via link on your email
+                    Please activate your account via{" "}
+                    <a
+                      href="https://mail.google.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-base underline underline-offset-2 hover:text-green-400"
+                    >
+                      link
+                    </a>{" "}
+                    on your email
                   </p>
                   <p className="text-sm text-gray-300">
                     (to be able to update your profile info)

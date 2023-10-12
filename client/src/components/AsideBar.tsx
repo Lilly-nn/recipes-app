@@ -1,15 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiTwotoneHome } from "react-icons/ai";
 import { MdManageAccounts, MdOutlineFavorite } from "react-icons/md";
 import { PiBowlFoodBold } from "react-icons/pi";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import axios from "../config/axios.config";
+import { authorized } from "../state";
+import { useRecoilState } from "recoil";
 
 export default function AsideBar() {
-  const signedIn = false;
+  const [signedIn, setSignedIn] = useRecoilState(authorized);
+  const navigate = useNavigate();
+
   async function signOut() {
+    setSignedIn(false);
     localStorage.removeItem("user_id");
     await axios.post("/api/auth/sign-out");
+    navigate("/");
   }
   return (
     <aside className="py-6 px-8 w-[300px] fixed">

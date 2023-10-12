@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../config/axios.config";
 import toast, { Toaster } from "react-hot-toast";
 import { getErrorMessage } from "../utils/getApiError";
+import { authorized } from "../state";
+import { useRecoilState } from "recoil";
 
 export default function SignInPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ export default function SignInPage() {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [signedIn, setSignedIn] = useRecoilState(authorized);
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFormData({
@@ -25,8 +28,9 @@ export default function SignInPage() {
       setLoading(true);
       const res = await axios.post("/api/auth/sign-in", { ...formData });
       if (res.status === 200) {
+        setSignedIn(true);
         localStorage.setItem("user_id", res.data.user._id);
-        navigate("/account");
+        navigate("/");
       }
     } catch (err) {
       toast.error(getErrorMessage(err));

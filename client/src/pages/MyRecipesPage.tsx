@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useFetchRecipes } from "../hooks/useFetchRecipes";
 import RecipeCard from "../components/RecipeCard";
 
@@ -15,6 +15,20 @@ export default function MyRecipesPage() {
       </div>
       {loading && <span>Fetching your recipes...</span>}
       {!loading && error && <span>{error}</span>}
+      {!loading && !recipes.length && (
+        <div>
+          <p className="text-gray-400 text-lg">no created recipes yet...</p>
+          <p className="text-xl text-gray-500 italic mt-2">
+            To create a recipe follow this{" "}
+            <Link
+              to={`/create-recipe/${id}`}
+              className="hover:underline text-gray-800"
+            >
+              link
+            </Link>
+          </p>
+        </div>
+      )}
     </section>
   );
 }

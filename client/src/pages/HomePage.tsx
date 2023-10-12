@@ -3,7 +3,6 @@ import RecipeCard from "../components/RecipeCard";
 
 export default function HomePage() {
   const { recipes, loading, error } = useFetchRecipes(`/recipes/get-all`);
-
   return (
     <section className="section">
       <h4 className="section__title">Home page</h4>

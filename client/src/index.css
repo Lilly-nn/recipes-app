@@ -17,6 +17,10 @@ code {
     monospace;
 }
 
+.desc::-webkit-scrollbar {
+  width: 0;
+}
+
 @layer components {
   .link {
     @apply text-xl hover:ml-1 transition-all hover:text-blue-950;

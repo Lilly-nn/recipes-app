@@ -1,17 +1,21 @@
-import { Link, useParams } from "react-router-dom";
-import axios from "../config/axios.config";
 import { useEffect, useState } from "react";
-import { RecipeType } from "../types/RecipeType";
-import { getErrorMessage } from "../utils/getApiError";
-import useFetchAuthor from "../hooks/useFetchAuthor";
-import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 import toast, { Toaster } from "react-hot-toast";
+import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+import { Link, useParams } from "react-router-dom";
+import AddComment from "../components/AddComment";
+import UserComment from "../components/Comment";
+import axios from "../config/axios.config";
+import useFetchAuthor from "../hooks/useFetchAuthor";
+import { Comment, RecipeType } from "../types/RecipeType";
+import { getErrorMessage } from "../utils/getApiError";
 
 export default function RecipePage() {
   const userId = localStorage.getItem("user_id");
   const { id } = useParams();
   const [recipeData, setRecipeData] = useState<RecipeType | null>(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { authorData } = useFetchAuthor(recipeData);
 
@@ -20,12 +24,16 @@ export default function RecipePage() {
       try {
         const res = await axios.get(`recipes/get-recipe/${id}`);
         const { recipe } = res.data;
-        const liked =
-          recipeData && recipeData.likes.some((el) => el === userId);
+        const liked = recipe.likes.some((el: string) => el === userId);
         setRecipeData(recipe);
         if (liked) setIsLiked(liked);
+        if (recipeData?.comments) {
+          setComments(recipe.comments);
+        }
       } catch (err) {
         setError(getErrorMessage(err));
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -41,7 +49,11 @@ export default function RecipePage() {
     }
   }
 
-  return (
+  return loading ? (
+    <div className="section">
+      <span>Loading...</span>
+    </div>
+  ) : (
     <section className="section bg-gray-100 min-h-screen p-8 relative">
       {error && <span>{error}</span>}
       {isLiked ? (
@@ -97,7 +109,31 @@ export default function RecipePage() {
             <span className="text-xl font-bold text-blue-400 inline-block mb-3">
               Description:
             </span>
-            <p>{recipeData?.description}</p>
+            <p className="max-h-[80vh] overflow-y-scroll scroll-w desc">
+              {recipeData?.description}
+            </p>
+          </div>
+        </div>
+        <div className="mt-8">
+          <span className="text-gray-500 text-xl border-b-2 border-b-gray-500">
+            Comments
+          </span>
+          <AddComment
+            recipeId={id}
+            userId={userId}
+            comments={comments}
+            setComments={setComments}
+          />
+          <div className="mt-2 flex flex-col gap-y-2">
+            {comments.length > 0 &&
+              comments.map((comment) => (
+                <UserComment
+                  comments={comments}
+                  setComments={setComments}
+                  key={comment.text}
+                  comment={comment}
+                />
+              ))}
           </div>
         </div>
       </div>

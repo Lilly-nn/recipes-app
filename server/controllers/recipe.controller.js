@@ -1,5 +1,6 @@
 import RecipeModel from "../DB/models/RecipeModel.js";
 import UserModel from "../DB/models/UserModel.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const createRecipe = async (req, res) => {
   try {
@@ -57,4 +58,38 @@ export const likeRecipe = async (req, res) => {
   await recipe.save();
   await user.save();
   return res.status(200);
+};
+
+export const addComment = async (req, res) => {
+  const { userId, recipeId, comment } = req.body;
+  const recipe = await RecipeModel.findById(recipeId);
+  const user = await UserModel.findById(userId);
+  if (!user) {
+    return res.status(401).json({ message: "Unauthorized user" });
+  }
+  if (!recipe) {
+    return res.status(404).json({ message: "Such recipe wasn't found" });
+  }
+  const commentInfo = {
+    text: comment,
+    username: user.name,
+    userId,
+    _id: uuidv4(),
+  };
+  recipe.comments.push(commentInfo);
+  await recipe.save();
+  return res.status(200).json(commentInfo);
+};
+
+export const deleteComment = async (req, res) => {
+  const { commentId, recipeId } = req.body;
+  const recipe = await RecipeModel.findById(recipeId);
+  if (!recipe) {
+    return res.status(404).json({ message: "Such recipe wasn't found" });
+  }
+  recipe.comments = recipe.comments.filter(
+    (comment) => comment._id !== commentId
+  );
+  await recipe.save();
+  return res.status(200).json({ message: "Deleted succesfully" });
 };

@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import { RecipeType } from "../types/RecipeType";
 import { getErrorMessage } from "../utils/getApiError";
 import useFetchAuthor from "../hooks/useFetchAuthor";
+import { FcLikePlaceholder, FcLike } from "react-icons/fc";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function RecipePage() {
+  const userId = localStorage.getItem("user_id");
   const { id } = useParams();
   const [recipeData, setRecipeData] = useState<RecipeType | null>(null);
+  const [isLiked, setIsLiked] = useState(false);
   const [error, setError] = useState("");
   const { authorData } = useFetchAuthor(recipeData);
 
@@ -16,18 +20,36 @@ export default function RecipePage() {
       try {
         const res = await axios.get(`recipes/get-recipe/${id}`);
         const { recipe } = res.data;
+        const liked =
+          recipeData && recipeData.likes.some((el) => el === userId);
         setRecipeData(recipe);
+        if (liked) setIsLiked(liked);
       } catch (err) {
         setError(getErrorMessage(err));
       }
     }
 
     fetchRecipe();
-  }, [id]);
+  }, [id, recipeData?._id]);
+
+  async function likeRecipe() {
+    setIsLiked(!isLiked);
+    try {
+      await axios.post("/recipes/like-recipe", { userId, recipeData });
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    }
+  }
 
   return (
-    <section className="section bg-gray-100 min-h-screen p-8">
+    <section className="section bg-gray-100 min-h-screen p-8 relative">
       {error && <span>{error}</span>}
+      {isLiked ? (
+        <FcLike className="heart-svg" onClick={likeRecipe} />
+      ) : (
+        <FcLikePlaceholder className="heart-svg" onClick={likeRecipe} />
+      )}
+
       <div className="text-blue-300">
         <div className="recipe-header relative w-[300px]">
           <img
@@ -79,6 +101,7 @@ export default function RecipePage() {
           </div>
         </div>
       </div>
+      <Toaster position="bottom-center" />
     </section>
   );
 }

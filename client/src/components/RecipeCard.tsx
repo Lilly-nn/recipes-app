@@ -8,6 +8,7 @@ import { getErrorMessage } from "../utils/getApiError";
 export default function RecipeCard(props: RecipeType) {
   const { pathname } = useLocation();
   const canDelete = pathname.includes("my-recipes");
+  const hideLiked = pathname.includes("favourites");
 
   async function deleteRecipe(e: React.MouseEvent<SVGElement>) {
     e.preventDefault();
@@ -43,7 +44,10 @@ export default function RecipeCard(props: RecipeType) {
           {props.tags.length > 0 &&
             props.tags.map((tag) => <p key={tag}>{tag}</p>)}
         </div>
-        <span className="card__likes">likes: {props.likes.length}</span>
+        {!hideLiked && (
+          <span className="card__likes">likes: {props.likes.length}</span>
+        )}
+
         {canDelete && (
           <AiFillDelete className="delete-icon" onClick={deleteRecipe} />
         )}

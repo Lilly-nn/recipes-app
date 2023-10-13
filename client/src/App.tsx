@@ -8,6 +8,7 @@ import CreateRecipePage from "./pages/CreateRecipePage";
 import AsideBar from "./components/AsideBar";
 import MyRecipesPage from "./pages/MyRecipesPage";
 import AuthorRecipesPage from "./pages/AuthorRecipesPage";
+import LikedRecipes from "./pages/LikedRecipes";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/my-recipes/:id" element={<MyRecipesPage />} />
         <Route path="/create-recipe/:id" element={<CreateRecipePage />} />
         <Route path="/recipes/author/:id" element={<AuthorRecipesPage />} />
+        <Route path="/favourites/:id" element={<LikedRecipes />} />
       </Routes>
     </Router>
   );

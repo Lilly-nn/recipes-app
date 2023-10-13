@@ -69,4 +69,7 @@ code {
   .profile-input {
     @apply border p-2 focus:outline-indigo-200 text-indigo-300 border-gray-200 rounded-md;
   }
+  .heart-svg {
+    @apply absolute right-[60px] text-3xl top-[60px] cursor-pointer;
+  }
 }

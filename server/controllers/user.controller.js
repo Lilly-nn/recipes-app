@@ -42,4 +42,12 @@ export const getUserById = async (req, res) => {
   return res.status(200).json({ author: authorData });
 };
 
-export const getLikedRecipes = async (req, res) => {};
+export const getLikedRecipes = async (req, res) => {
+  const { id } = req.params;
+  const user = await UserModel.findById(id);
+  if (!user) {
+    return res.status(401).json({ message: "Not authorized" });
+  }
+  const likedRecipes = user.liked;
+  return res.status(200).json({ likedRecipes });
+};

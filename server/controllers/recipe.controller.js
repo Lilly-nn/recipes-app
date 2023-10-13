@@ -1,4 +1,5 @@
 import RecipeModel from "../DB/models/RecipeModel.js";
+import UserModel from "../DB/models/UserModel.js";
 
 export const createRecipe = async (req, res) => {
   try {
@@ -36,4 +37,24 @@ export const deleteRecipe = async (req, res) => {
   } else {
     return res.status(500).json({ message: "Something went wrong..." });
   }
+};
+
+export const likeRecipe = async (req, res) => {
+  const { userId, recipeData } = req.body;
+  const recipe = await RecipeModel.findById(recipeData._id);
+  const user = await UserModel.findById(userId);
+  if (!user) {
+    return res.status(401).json({ message: "Unauthorized user" });
+  }
+  const exists = recipe.likes.some((el) => el.valueOf === user._id.valueOf);
+  if (!exists) {
+    recipe.likes.push(user._id);
+    user.liked.push(recipeData);
+  } else {
+    recipe.likes = recipe.likes.filter((el) => el.valueOf !== user._id.valueOf);
+    user.liked = user.liked.filter((el) => el._id !== recipeData._id);
+  }
+  await recipe.save();
+  await user.save();
+  return res.status(200);
 };

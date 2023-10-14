@@ -30,6 +30,14 @@ export const getRecipeById = async (req, res) => {
   return res.status(200).json({ recipe });
 };
 
+export const getRecipeByTag = async (req, res) => {
+  const { tag } = req.params;
+  let recipeTag = tag.split("-").join(" ");
+  recipeTag = recipeTag[0].toUpperCase() + recipeTag.slice(1);
+  const recipes = await RecipeModel.find({ tags: { $in: [recipeTag] } });
+  return res.status(200).json({ recipes });
+};
+
 export const deleteRecipe = async (req, res) => {
   const { id } = req.body;
   const deleted = await RecipeModel.findByIdAndDelete(id);

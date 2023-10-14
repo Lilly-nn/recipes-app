@@ -6,6 +6,7 @@ import {
   deleteRecipe,
   getAllRecipes,
   getRecipeById,
+  getRecipeByTag,
   likeRecipe,
 } from "../controllers/recipe.controller.js";
 import { validateUser } from "../middleware/validateUser.js";
@@ -19,5 +20,6 @@ router.post("/add-comment", addComment);
 router.post("/delete-comment", deleteComment);
 router.get("/get-all", getAllRecipes);
 router.get("/get-recipe/:id", getRecipeById);
+router.get("/get-recipe/tag/:tag", getRecipeByTag);
 
 export default router;

@@ -54,7 +54,15 @@ export default function RecipeCard(props: RecipeCardProps) {
         <h6 className="card__title">{title}</h6>
         <span className="card__time">{timeToMake}</span>
         <div className="card__tags">
-          {tags.length > 0 && tags.map((tag) => <p key={tag}>{tag}</p>)}
+          {tags.length > 0 &&
+            tags.map((tag) => (
+              <Link
+                to={`/recipes/tag/${tag.toLowerCase().split(" ").join("-")}`}
+                key={tag}
+              >
+                {tag}
+              </Link>
+            ))}
         </div>
         {!hideLiked && (
           <span className="card__likes">likes: {likes.length}</span>

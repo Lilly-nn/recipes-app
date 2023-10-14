@@ -61,7 +61,7 @@ code {
   .card__tags {
     @apply whitespace-nowrap overflow-hidden flex gap-1;
   }
-  .card__tags p {
+  .card__tags a {
     @apply bg-slate-300 w-fit lowercase text-gray-600 text-sm p-1 rounded-md;
   }
   .card__likes {

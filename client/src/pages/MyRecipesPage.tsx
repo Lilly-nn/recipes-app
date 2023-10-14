@@ -1,17 +1,32 @@
 import { Link, useParams } from "react-router-dom";
 import { useFetchRecipes } from "../hooks/useFetchRecipes";
 import RecipeCard from "../components/RecipeCard";
+import { RecipeType } from "../types/RecipeType";
+import { useEffect, useState } from "react";
 
 export default function MyRecipesPage() {
   const { id } = useParams();
   const { recipes, loading, error } = useFetchRecipes(`/get-created/${id}`);
+  const [myRecipes, setMyRecipes] = useState<RecipeType[]>([]);
+
+  useEffect(() => {
+    setMyRecipes(recipes);
+  }, [loading]);
+
   return (
     <section className="section">
       <h6 className="section__title ">My Recipes</h6>
       <div className="mt-5 flex gap-3 flex-wrap">
         {!loading &&
-          recipes.length > 0 &&
-          recipes.map((recipe) => <RecipeCard key={recipe._id} {...recipe} />)}
+          myRecipes.length > 0 &&
+          myRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe._id}
+              recipes={myRecipes}
+              setRecipes={setMyRecipes}
+              {...recipe}
+            />
+          ))}
       </div>
       {loading && <span>Fetching your recipes...</span>}
       {!loading && error && <span>{error}</span>}

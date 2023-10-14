@@ -1,14 +1,24 @@
-import { RecipeType } from "../types/RecipeType";
-import { Link, useLocation } from "react-router-dom";
-import { AiFillDelete } from "react-icons/ai";
-import axios from "../config/axios.config";
 import toast, { Toaster } from "react-hot-toast";
+import { AiFillDelete } from "react-icons/ai";
+import { Link, useLocation } from "react-router-dom";
+import axios from "../config/axios.config";
+import { RecipeCardProps } from "../types/RecipeType";
 import { getErrorMessage } from "../utils/getApiError";
 
-export default function RecipeCard(props: RecipeType) {
+export default function RecipeCard(props: RecipeCardProps) {
   const { pathname } = useLocation();
   const canDelete = pathname.includes("my-recipes");
   const hideLiked = pathname.includes("favourites");
+  const {
+    title,
+    timeToMake,
+    tags,
+    likes,
+    image,
+    _id: id,
+    recipes,
+    setRecipes,
+  } = props;
 
   async function deleteRecipe(e: React.MouseEvent<SVGElement>) {
     e.preventDefault();
@@ -18,8 +28,11 @@ export default function RecipeCard(props: RecipeType) {
     if (!deleteAccepted) return;
     try {
       const res = await axios.post("/recipes/delete-recipe", {
-        id: props._id,
+        id,
       });
+      const filtered = recipes?.filter((recipe) => recipe._id !== id);
+
+      filtered && setRecipes && setRecipes(filtered);
       const { message } = res.data;
       toast.success(message);
     } catch (err) {
@@ -28,24 +41,23 @@ export default function RecipeCard(props: RecipeType) {
   }
 
   return (
-    <Link to={`/recipes/${props._id}`} className="card">
+    <Link to={`/recipes/${id}`} className="card">
       <img
         src={
-          props.image ||
+          image ||
           "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg"
         }
-        alt={props.title}
+        alt={title}
         className="card__img"
       />
       <div className="card__details">
-        <h6 className="card__title">{props.title}</h6>
-        <span className="card__time">{props.timeToMake}</span>
+        <h6 className="card__title">{title}</h6>
+        <span className="card__time">{timeToMake}</span>
         <div className="card__tags">
-          {props.tags.length > 0 &&
-            props.tags.map((tag) => <p key={tag}>{tag}</p>)}
+          {tags.length > 0 && tags.map((tag) => <p key={tag}>{tag}</p>)}
         </div>
         {!hideLiked && (
-          <span className="card__likes">likes: {props.likes.length}</span>
+          <span className="card__likes">likes: {likes.length}</span>
         )}
 
         {canDelete && (

@@ -17,3 +17,8 @@ export type RecipeType = {
     description: string;
     image: string
 }
+
+export type RecipeCardProps = RecipeType & {
+    recipes?: RecipeType[],
+    setRecipes?: React.Dispatch<React.SetStateAction<RecipeType[]>>
+}

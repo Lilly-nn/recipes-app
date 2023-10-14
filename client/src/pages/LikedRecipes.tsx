@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import axios from "../config/axios.config";
 import { RecipeType } from "../types/RecipeType";
 import RecipeCard from "../components/RecipeCard";

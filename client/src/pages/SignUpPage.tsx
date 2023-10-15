@@ -5,8 +5,10 @@ import toast, { Toaster } from "react-hot-toast";
 import { getErrorMessage } from "../utils/getApiError";
 import { authorized } from "../state";
 import { useRecoilState } from "recoil";
+import { useTranslation } from "react-i18next";
 
 export default function SignInPage() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -41,10 +43,10 @@ export default function SignInPage() {
 
   return (
     <section className="section">
-      <h6 className="section__title">Sign In</h6>
+      <h6 className="section__title">{t("sideBar.signIn")}</h6>
       <form onSubmit={signIn} className="flex flex-col gap-4 mt-12">
         <label className="input-label">
-          Email
+          {t("sign-up.email")}
           <input
             onChange={onChange}
             autoComplete="off"
@@ -54,7 +56,7 @@ export default function SignInPage() {
           />
         </label>
         <label className="input-label">
-          Password
+          {t("sign-up.password")}
           <input
             onChange={onChange}
             name="password"
@@ -64,7 +66,7 @@ export default function SignInPage() {
         </label>
 
         <button type="submit" className="btn" disabled={loading}>
-          {loading ? "Signing in..." : "Sign In"}
+          {loading ? "Signing in..." : t("sign-up.sign_in")}
         </button>
         <Toaster position="bottom-center" />
       </form>

@@ -1,0 +1,56 @@
+{
+  "app_title": "Recipes App",
+  "sideBar": {
+    "home": "Home",
+    "account": "Account",
+    "liked": "Favourites",
+    "myrecipes": "My Recipes",
+    "create": "Create Recipe",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logout": "Logout"
+  },
+  "section_title": {
+    "home": "Home",
+    "profile": "Profile Page",
+    "liked": "Liked",
+    "recipes": "My Recipes",
+    "create": "Create A Recipe"
+  },
+  "profile": {
+    "name": "Name",
+    "email": "Email",
+    "city": "City",
+    "registered": "Registered since",
+    "update": "Update info",
+    "updating:": "Updating..."
+  },
+  "create": {
+    "title": "Recipe Title",
+    "description": "Description (steps to make)",
+    "time": "Time to make(1 hour, 30 minutes, 15m, 1h 20m )",
+    "ingredients": "Ingredients (50g butter, 3 eggs)",
+    "placeholder": "ingredient",
+    "add_ingr": "add",
+    "choose_img": "Choose image preview",
+    "tags": "Tags",
+    "button": "create recipe"
+  },
+  "sign-up": {
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up"
+  },
+  "liked": {
+    "no_liked": "You haven't liked any recipe yet."
+  },
+  "placeholder": {
+    "search": "Search recipes by name.. "
+  },
+  "loading": {
+    "fetching": "Fetching {{data}}...",
+    "recipes": "recipes"
+  }
+}

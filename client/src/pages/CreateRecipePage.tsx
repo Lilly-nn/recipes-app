@@ -7,9 +7,11 @@ import FileInput from "../components/FileInput";
 import IngredientsInputs from "../components/IngredientsInputs";
 import axios from "../config/axios.config";
 import { culinaryTags } from "../info/culinaryTags";
+import { useTranslation } from "react-i18next";
 
 export default function CreateRecipePage() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [recipeData, setRecipeData] = useState({
     title: "",
@@ -81,10 +83,10 @@ export default function CreateRecipePage() {
 
   return (
     <section className="section">
-      <h6 className="section__title">Create a recipe</h6>
+      <h6 className="section__title">{t("section_title.create")}</h6>
       <form onSubmit={createRecipe} className="flex flex-col gap-4 mt-12">
         <label className="input-label">
-          Recipe Title
+          {t("create.title")}
           <input
             required
             className="input"
@@ -95,7 +97,7 @@ export default function CreateRecipePage() {
           />
         </label>
         <label className="input-label">
-          Description (steps to make)
+          {t("create.description")}
           <textarea
             required
             className="input max-h-[70vh] min-h-[200px]"
@@ -104,7 +106,7 @@ export default function CreateRecipePage() {
           />
         </label>
         <label className="input-label">
-          Time to make(1 hour, 30 minutes, 15m, 1h 20m )
+          {t("create.time")}
           <input
             required
             className="input"
@@ -115,16 +117,14 @@ export default function CreateRecipePage() {
           />
         </label>
         <div className="">
-          <label className="input-label">
-            Ingredients (50g butter, 3 eggs)
-          </label>
+          <label className="input-label">{t("create.ingredients")}</label>
           <IngredientsInputs
             recipeData={recipeData}
             setRecipeData={setRecipeData}
           />
           <FileInput recipeData={recipeData} setRecipeData={setRecipeData} />
           <div>
-            <label className="input-label">Tags</label>
+            <label className="input-label">{t("create.tags")}</label>
             <Select
               multiple
               placeholder="Choose relevant tags"
@@ -154,7 +154,7 @@ export default function CreateRecipePage() {
           disabled={loading}
           className="py-2 px-6 rounded-md text-orange-600 w-[200px] border border-orange-400 hover:bg-orange-400 hover:text-white disabled:bg-orange-300 disabled:text-white disabled:border-none transition-colors focus:outline-orange-500"
         >
-          {loading ? "creating..." : "create recipe"}
+          {loading ? "creating..." : t("create.button")}
         </button>
       </form>
       <Toaster position="bottom-center" />

@@ -3,11 +3,13 @@ import { useFetchRecipes } from "../hooks/useFetchRecipes";
 import RecipeCard from "../components/RecipeCard";
 import { RecipeType } from "../types/RecipeType";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function MyRecipesPage() {
   const { id } = useParams();
   const { recipes, loading, error } = useFetchRecipes(`/get-created/${id}`);
   const [myRecipes, setMyRecipes] = useState<RecipeType[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setMyRecipes(recipes);
@@ -15,7 +17,7 @@ export default function MyRecipesPage() {
 
   return (
     <section className="section">
-      <h6 className="section__title ">My Recipes</h6>
+      <h6 className="section__title ">{t("section_title.recipes")}</h6>
       <div className="mt-5 flex gap-3 flex-wrap">
         {!loading &&
           myRecipes.length > 0 &&
@@ -28,7 +30,9 @@ export default function MyRecipesPage() {
             />
           ))}
       </div>
-      {loading && <span>Fetching your recipes...</span>}
+      {loading && (
+        <span>{t("loading.fetching", { data: "your recipes" })}</span>
+      )}
       {!loading && error && <span>{error}</span>}
       {!loading && !recipes.length && (
         <div>

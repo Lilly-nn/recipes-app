@@ -6,8 +6,10 @@ import { registerErrors } from "../types/validation";
 import { getErrorMessage } from "../utils/getApiError";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function SignUpPage() {
+  const { t } = useTranslation();
   const [userInfo, setUserInfo] = useState<UserInfo>({
     name: "",
     email: "",
@@ -50,11 +52,11 @@ export default function SignUpPage() {
   }
   return (
     <section className="section">
-      <h6 className="section__title">Sign Up</h6>
+      <h6 className="section__title">{t("sideBar.signUp")}</h6>
       <form onSubmit={signUp} className="flex flex-col gap-4 mt-12">
         <div>
           <label className="input-label">
-            Name
+            {t("profile.name")}
             <input
               className="input"
               autoComplete="off"
@@ -70,7 +72,7 @@ export default function SignUpPage() {
         </div>
         <div>
           <label className="input-label">
-            Email
+            {t("sign-up.email")}
             <input
               autoComplete="off"
               className="input"
@@ -83,7 +85,7 @@ export default function SignUpPage() {
         </div>
         <div>
           <label className="input-label">
-            Password
+            {t("sign-up.password")}
             <input
               className="input"
               type="password"
@@ -98,7 +100,7 @@ export default function SignUpPage() {
         </div>
         <div>
           <label className="input-label">
-            Confirm Password
+            {t("sign-up.confirm_password")}
             <input
               className="input"
               type="password"
@@ -115,7 +117,7 @@ export default function SignUpPage() {
         </div>
 
         <button type="submit" className="btn" disabled={loading}>
-          {loading ? "Loading..." : "Sign Up"}
+          {loading ? "Loading..." : t("sign-up.sign_up")}
         </button>
         <Toaster position="bottom-center" />
       </form>

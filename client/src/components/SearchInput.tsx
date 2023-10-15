@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { RecipeType } from "../types/RecipeType";
+import { useTranslation } from "react-i18next";
 
 export default function SearchInput({
   recipes,
@@ -9,7 +10,7 @@ export default function SearchInput({
   setFiltered: React.Dispatch<React.SetStateAction<RecipeType[]>>;
 }) {
   const [inputValue, setInputValue] = useState("");
-
+  const { t } = useTranslation();
   useEffect(() => {
     function filter() {
       const filteredRecipes = recipes.filter((recipe) => {
@@ -27,7 +28,7 @@ export default function SearchInput({
     <input
       className=" p-4 focus:outline-slate-200 text-gray-500"
       type="text"
-      placeholder="Search recipes by name.. "
+      placeholder={t("placeholder.search")}
       value={inputValue}
       onChange={(e) => {
         setInputValue(e.target.value);

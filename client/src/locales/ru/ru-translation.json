@@ -1,0 +1,57 @@
+{
+  "app_title": "Рецепты",
+  "sideBar": {
+    "home": "Главная",
+    "account": "Аккаунт",
+    "liked": "Понравившееся",
+    "myrecipes": "Мои рецепты",
+    "create": "Создать рецепт",
+    "signIn": "Войти",
+    "signUp": "Зарегистрироваться",
+    "logout": "Выйти"
+  },
+  "section_title": {
+    "home": "Главная",
+    "profile": "Аккаунт",
+    "liked": "Понравившееся",
+    "recipes": "Мои рецепты",
+    "create": "Создать рецепт"
+  },
+  "profile": {
+    "name": "Имя",
+    "email": "Эл. почта",
+    "city": "Город",
+    "registered": "Зарегистрирован с",
+    "update": "Обновить профиль",
+    "updating:": "Обновляем..."
+  },
+  "create": {
+    "title": "Название рецепта",
+    "description": "Описание (как приготовить блюдо)",
+    "time": "Время на готовку(1 час, 30 минут, 15 минут, 1 час 20 минут )",
+    "ingredients": "Ингредиенты (50г масла, 3 яйца)",
+    "placeholder": "ingredient",
+    "add_ingr": "add",
+    "choose_img": "Choose image preview",
+    "tags": "Тэги",
+    "button": "создать"
+  },
+  "sign-up": {
+    "email": "Эл. почта",
+    "password": "Пароль",
+    "confirm_password": "Подтвердите пароль",
+    "sign_in": "Войти",
+    "sign_up": "Зарегистрироваться"
+  },
+  "liked": {
+    "no_liked": "Лайкните что-то и эти рецепты появятся здесь ;) "
+  },
+  "placeholder": {
+    "search": "Искать по названию.. "
+  },
+
+  "loading": {
+    "fetching": "Ищу {{data}}...",
+    "recipes": "рецепты"
+  }
+}

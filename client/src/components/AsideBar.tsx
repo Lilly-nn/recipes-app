@@ -6,10 +6,12 @@ import { BiMessageSquareAdd } from "react-icons/bi";
 import axios from "../config/axios.config";
 import { authorized } from "../state";
 import { useRecoilState } from "recoil";
+import { useTranslation } from "react-i18next";
 
 export default function AsideBar() {
   const [signedIn, setSignedIn] = useRecoilState(authorized);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   async function signOut() {
     setSignedIn(false);
@@ -25,7 +27,7 @@ export default function AsideBar() {
       <div className="flex flex-col gap-y-4 mt-6">
         <Link to="/" className="link">
           <AiTwotoneHome />
-          Home
+          {t("sideBar.home")}
         </Link>
         {!signedIn ? (
           <div className="flex">
@@ -33,14 +35,14 @@ export default function AsideBar() {
               to="/sign-in"
               className="text-xl transition-all underline-offset-2  hover:text-blue-950 hover:underline"
             >
-              Sign in
+              {t("sideBar.signIn")}
             </Link>
             /
             <Link
               to="/sign-up"
               className="text-xl underline-offset-2 transition-all hover:text-blue-950 hover:underline"
             >
-              Sign up
+              {t("sideBar.signUp")}
             </Link>
           </div>
         ) : (
@@ -50,7 +52,7 @@ export default function AsideBar() {
               className="link"
             >
               <MdManageAccounts />
-              Account
+              {t("sideBar.account")}
             </Link>
 
             <Link
@@ -58,24 +60,24 @@ export default function AsideBar() {
               className="link"
             >
               <MdOutlineFavorite />
-              Favourites
+              {t("sideBar.liked")}
             </Link>
             <Link
               to={`/my-recipes/${localStorage.getItem("user_id")}`}
               className="link"
             >
               <PiBowlFoodBold />
-              My recipes
+              {t("sideBar.myrecipes")}
             </Link>
             <Link
               to={`/create-recipe/${localStorage.getItem("user_id")}`}
               className="link"
             >
               <BiMessageSquareAdd />
-              Create recipe
+              {t("sideBar.create")}
             </Link>
             <button onClick={signOut} type="button" className="link text-start">
-              Logout
+              {t("sideBar.logout")}
             </button>
           </>
         )}

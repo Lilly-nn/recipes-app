@@ -1,0 +1,57 @@
+{
+  "app_title": "Рецепти",
+  "sideBar": {
+    "home": "Головна",
+    "account": "Акаунт",
+    "liked": "Вподобайки",
+    "myrecipes": "Мої рецепти",
+    "create": "Створити рецепт",
+    "signIn": "Увійти",
+    "signUp": "Зареєструватися",
+    "logout": "Вийти"
+  },
+  "section_title": {
+    "home": "Головна",
+    "profile": "Акаунт",
+    "liked": "Вподобайки",
+    "recipes": "Мої рецепти",
+    "create": "Створити рецепт"
+  },
+  "profile": {
+    "name": "Ім'я",
+    "email": "Пошта",
+    "city": "Місто",
+    "registered": "Зареєстрований з",
+    "update": "Оновити профіль",
+    "updating:": "Оновлюємо..."
+  },
+  "create": {
+    "title": "Назва рецепту",
+    "description": "Опис (як готувати страву)",
+    "time": "Час на приготування(1 година, 30 хвилин, 15 хвилин, 1година 20хвилин )",
+    "ingredients": "Інгредієнти (50г масла, 3 яйця)",
+    "placeholder": "ingredient",
+    "add_ingr": "add",
+    "choose_img": "Choose image preview",
+    "tags": "Теги",
+    "button": "створити"
+  },
+  "sign-up": {
+    "email": "Пошта",
+    "password": "Пароль",
+    "confirm_password": "Підтвердіть пароль",
+    "sign_in": "Увійти",
+    "sign_up": "Зареєструватися"
+  },
+  "liked": {
+    "no_liked": "У Вас ще немає вподобаних рецептів :("
+  },
+  "placeholder": {
+    "search": "Шукати за назвою.. "
+  },
+
+  "loading": {
+    "fetching": "Шукаю {{data}}...",
+    "recipes": "рецепти"
+  }
+}
